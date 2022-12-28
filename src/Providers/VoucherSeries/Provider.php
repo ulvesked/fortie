@@ -62,11 +62,20 @@ class Provider extends ProviderBase {
    *
    * @return array
    */
-  public function all ($page = null)
+  public function all ($page = null, $year = null)
   {
     $req = new FortieRequest();
     $req->method('GET');
     $req->path($this->basePath);
+
+    if (!is_null($year)) {  
+      $req->param('financialyear', $year);
+    }
+
+    if (! is_null($this->timespan)) {
+      $lastModified = date('Y-m-d H:i', strtotime($this->timespan));
+      $req->param('lastmodified', $lastModified);
+    }
 
     if (!is_null($page)) {  
       $req->param('page', $page);
@@ -75,18 +84,25 @@ class Provider extends ProviderBase {
     return $this->send($req->build());
   }
 
-
   /**
    * Retrieves a single voucher series.
    *
    * @param $code
    * @return array
    */
-  public function find ($code)
+  public function find ($code, $year = null)
   {
     $req = new FortieRequest();
     $req->method('GET');
     $req->path($this->basePath)->path($code);
+
+    if (!is_null($year)) {  
+      $req->param('financialyear', $year);
+    }
+    if (! is_null($this->timespan)) {
+      $lastModified = date('Y-m-d H:i', strtotime($this->timespan));
+      $req->param('lastmodified', $lastModified);
+    }
 
     return $this->send($req->build());
   }

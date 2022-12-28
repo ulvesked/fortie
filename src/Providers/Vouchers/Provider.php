@@ -106,6 +106,11 @@ class Provider extends ProviderBase {
     $req->path($this->basePath);
     $req->param('financialyear', $year);
 
+    if (! is_null($this->timespan)) {
+      $lastModified = date('Y-m-d H:i', strtotime($this->timespan));
+      $req->param('lastmodified', $lastModified);
+    }
+
     if (!is_null($page)) {  
       $req->param('page', $page);
     }
