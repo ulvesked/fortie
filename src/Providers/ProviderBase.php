@@ -129,6 +129,13 @@ abstract class ProviderBase
    */
   public $timespan = null;
 
+  /**
+   * The global search param financialyear
+   *
+   * Values are Year ID (int)
+   */
+  public $financialyear = null;
+
 
   /**
    * The possible values for filtering.
@@ -387,6 +394,17 @@ abstract class ProviderBase
   public function timespan($timespan)
   {
     $this->timespan = $timespan;
+
+    return $this;
+  }
+
+  /**
+   * Sets the time limit for the last modification time
+   * of the items to be listed.
+   */
+  public function financialyear($year)
+  {
+    $this->financialyear = $year;
 
     return $this;
   }

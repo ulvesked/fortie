@@ -49,6 +49,11 @@ trait FetchTrait
             $req->param('lastmodified', $lastModified);
         }
 
+        if (! is_null($this->financialyear)) {
+            $lastModified = (int)$this->financialyear;
+            $req->param('financialyear', $lastModified);
+        }
+
         if (! is_null($this->filter)) {
             $req->param('filter', $this->filter);
         }
