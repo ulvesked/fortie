@@ -62,14 +62,14 @@ class Provider extends ProviderBase {
    *
    * @return array
    */
-  public function all ($page = null, $year = null)
+  public function all ($page = null)
   {
     $req = new FortieRequest();
     $req->method('GET');
     $req->path($this->basePath);
 
-    if (!is_null($year)) {  
-      $req->param('financialyear', $year);
+    if (!is_null($this->financialyear)) {  
+      $req->param('financialyear', $this->financialyear);
     }
 
     if (! is_null($this->timespan)) {
@@ -90,15 +90,16 @@ class Provider extends ProviderBase {
    * @param $code
    * @return array
    */
-  public function find ($code, $year = null)
+  public function find ($code)
   {
     $req = new FortieRequest();
     $req->method('GET');
     $req->path($this->basePath)->path($code);
 
-    if (!is_null($year)) {  
-      $req->param('financialyear', $year);
+    if (!is_null($this->financialyear)) {  
+      $req->param('financialyear', $this->financialyear);
     }
+    
     if (! is_null($this->timespan)) {
       $lastModified = date('Y-m-d H:i', strtotime($this->timespan));
       $req->param('lastmodified', $lastModified);
