@@ -36,6 +36,8 @@ class Provider extends ProviderBase {
       FindTrait,
       UpdateTrait;
 
+      protected $employeeid = null;
+
   protected $wrapper = 'SalaryTransaction';
   protected $wrapperGroup = 'SalaryTransactions';
 
@@ -88,4 +90,8 @@ class Provider extends ProviderBase {
    * Override the REST path
    */
   protected $basePath = 'salarytransactions';
+
+  public function employeeid($employeeid){
+    $this->employeeid = $employeeid;
+  }
 }
