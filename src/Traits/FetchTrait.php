@@ -15,10 +15,6 @@ trait FetchTrait
      */
     public function all($page = null)
     {
-        if ($this->limit > 0) {
-            return $this->fetch($page);
-        }
-
         return $this->fetchAll();
     }
 

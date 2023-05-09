@@ -76,6 +76,10 @@ class Provider extends ProviderBase {
    */
   protected $basePath = 'taxreductions';
 
+  /**
+   * Filter on referencenumver
+   */
+  protected $_referencenumber = null;
 
   /**
    * Retrieves a list of tax reductions.
@@ -96,6 +100,10 @@ class Provider extends ProviderBase {
       $req->param('page', $page);
     }
 
+    if (!is_null($this->_referencenumber)) {
+      $req->param('referencenumber', $this->_referencenumber);
+    }
+    
     return $this->send($req->build());
   }
 
@@ -168,6 +176,10 @@ class Provider extends ProviderBase {
     $req->path($this->basePath)->path($id);
 
     return $this->send($req->build());
+  }
+
+  public function referencenumber($referencenumber) {
+    $this->_referencenumber = $referencenumber;
   }
 
 }
