@@ -15,7 +15,10 @@ trait FetchTrait
      */
     public function all($page = null)
     {
-        return $this->fetchAll();
+        if (!is_null($page))
+            return $this->fetch($page);
+        else
+            return $this->fetchAll();
     }
 
     /**
@@ -28,7 +31,7 @@ trait FetchTrait
      */
     public function fetch($page = null)
     {
-        if (! is_null($page)) {
+        if (!is_null($page)) {
             $this->page($page);
         }
 
@@ -40,21 +43,21 @@ trait FetchTrait
         $req->param('offset', $this->offset);
         $req->param('limit', $this->limit);
 
-        if (! is_null($this->timespan)) {
+        if (!is_null($this->timespan)) {
             $lastModified = date('Y-m-d H:i', strtotime($this->timespan));
             $req->param('lastmodified', $lastModified);
         }
 
-        if (! is_null($this->financialyear)) {
+        if (!is_null($this->financialyear)) {
             $lastModified = (int)$this->financialyear;
             $req->param('financialyear', $lastModified);
         }
 
-        if (! is_null($this->filter)) {
+        if (!is_null($this->filter)) {
             $req->param('filter', $this->filter);
         }
 
-        if (! is_null($this->sort_order)) {
+        if (!is_null($this->sort_order)) {
             $req->param('sortorder', $this->sort_order);
             $req->param('sortby', $this->sort_by);
         }
@@ -77,6 +80,7 @@ trait FetchTrait
         $totalPages = 1;
 
         while ($currentPage < $totalPages) {
+
             $currentPage++;
             $response = $this->limit($this->default_limit)
                 ->page($currentPage)
@@ -87,10 +91,10 @@ trait FetchTrait
             $totalPages = $response->MetaInformation->{'@TotalPages'};
             $currentPage = $response->MetaInformation->{'@CurrentPage'};
 
-            if ($this->page($currentPage)->count() > 0) {
+            if (isset($response->{$this->wrapperGroup})) {
                 $items = array_merge(
                     $items,
-                    $this->page($currentPage)->all()->{$this->wrapperGroup}
+                    $response->{$this->wrapperGroup}
                 );
             }
         }
