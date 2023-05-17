@@ -303,6 +303,16 @@ abstract class ProviderBase
         return $this->send($request);
       }
 
+      // Make sure we got an ErrorInformation objet before accessing it
+      if (!is_object($jsonError) || !property_exists($jsonError, "ErrorInformation")) {
+        throw new FortnoxException(
+          "Request failed", 
+          "No ErrorInformation in response. Response body = ".$responseBodyAsString,
+          $response->getStatusCode(),
+          $e
+        );
+      }
+
       // Because Fortnox API can use both non-capitalized and capitalized parameters.
       if (property_exists($jsonError->ErrorInformation, 'error')) {
         throw new FortnoxException(
