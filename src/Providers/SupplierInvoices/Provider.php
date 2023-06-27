@@ -20,9 +20,13 @@
 
 use Wetcat\Fortie\Providers\ProviderBase;
 use Wetcat\Fortie\FortieRequest;
+use Wetcat\Fortie\Traits\FetchTrait;
 
 class Provider extends ProviderBase {
 
+  use FetchTrait;
+  protected $wrapper = 'SupplierInvoice';
+  protected $wrapperGroup = 'SupplierInvoices';
   protected $attributes = [
     'Url',
     'AccountingMethod',
@@ -111,30 +115,6 @@ class Provider extends ProviderBase {
    * Override the REST path
    */
   protected $basePath = 'supplierinvoices';
-
-
-  /**
-   * Retrieves a list of invoices.
-   *
-   * @return array
-   */
-  public function all ($filter = null, $page = null)
-  {
-    $req = new FortieRequest();
-    $req->method('GET');
-    $req->path($this->basePath);
-
-    if (!is_null($filter)) {
-      $req->filter($filter);
-    }
-
-    if (!is_null($page)) {  
-      $req->param('page', $page);
-    }
-
-    return $this->send($req->build());
-  }
-
 
   /**
    * Retrieves a single invoice.
